@@ -1,5 +1,10 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
+// import { login } from "./utils/functions.js";
+
+// test("test", async ({ page }) => {
+//   await login(page, "myUsername", "myPassword");
+// });
 
 test("has title", async ({ page }) => {
   await page.goto("https://playwright.dev/");
