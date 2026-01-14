@@ -1,24 +1,27 @@
 // @ts-check
 import { test, expect } from "@playwright/test";
-// import { login } from "./utils/functions.js";
+import { goToAnnuaire, getData } from "./utils/functions.js";
 
-// test("test", async ({ page }) => {
-//   await login(page, "myUsername", "myPassword");
-// });
+test('[US01] - Parcours "Promotion" : Recherche + filtre + promotion', async ({ page }) => {
+  await goToAnnuaire(page);
 
-test("has title", async ({ page }) => {
-  await page.goto("https://playwright.dev/");
+  const data = await getData(page); // return un objet;
+  console.log(data);
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+  await page.getByTestId("search-input").fill("Jean");
+  // Localise tous les élements avec leur id commençant par "cell-name-" et on stock dans un tableau
 
-test("get started link", async ({ page }) => {
-  await page.goto("https://playwright.dev/");
+  // On extrait tous les textes d'un coup
+  const names = await page.locator('[id^="cell-name-"]').allInnerTexts();
+  // names = ["Jean Bon", "Jean Neymar"]
+  for (const name of names) {
+    expect(name).toContain("Jean");
+  }
 
-  // Click the get started link.
-  await page.getByRole("link", { name: "Get started" }).click();
+  await page.getByTestId("dept-filter").selectOption("RH");
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole("heading", { name: "Installation" })).toBeVisible();
+  const departs = await page.locator('[id^="cell-dept-"]').allInnerTexts();
+  for (const depart of departs) {
+    expect(depart).toContain("RH");
+  }
 });
