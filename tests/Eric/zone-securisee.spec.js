@@ -28,7 +28,6 @@ test.describe("Zone sécurisée E2E", () => {
 
     // --- STEP 1 : Séquence d'amorçage ---
     await runSequence(page);
-
     await expect(step1Icon).toBeVisible();
 
     // STEP 3 encore verrouillé (flou + non interactif)
