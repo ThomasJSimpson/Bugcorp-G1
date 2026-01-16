@@ -1,0 +1,21 @@
+<div class="rounded-2xl p-6 shadow-sm border transition-all duration-500 relative overflow-hidden mb-8 bg-white border-slate-200" id="savings-dashboard">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4 relative z-10">
+    <div>
+      <h3 class="text-sm font-bold uppercase tracking-wider mb-1 flex items-center gap-2 text-slate-500">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="12" r="6"></circle>
+          <circle cx="12" cy="12" r="2"></circle>
+        </svg>
+        Objectif d'Économies (Restructuration)
+      </h3>
+      <div class="flex items-baseline gap-2"><span class="text-3xl md:text-4xl font-black tracking-tight text-slate-900" id="current-savings-value">0&nbsp;€</span><span class="text-sm font-medium text-slate-400" id="target-savings-value">/ 240 000&nbsp;€</span></div>
+    </div>
+  </div>
+  <div class="w-full h-4 rounded-full overflow-hidden relative bg-slate-100" id="progress-container">
+    <div class="h-full transition-all duration-700 ease-out relative bg-indigo-600" id="savings-progress-bar" data-testid="progress-bar" style="width: 0%"><div class="absolute inset-0 bg-white/20 w-full h-full animate-[shimmer_2s_infinite] skew-x-[-20deg]" style="background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent)"></div></div>
+  </div>
+  <div class="mt-3 flex gap-6 text-xs font-medium text-slate-500" id="legend-savings">
+    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-red-500"></span> Virer: +45 000&nbsp;€</span><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-orange-500"></span> Rétrograder: +12 000&nbsp;€</span><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-green-500"></span> Promouvoir: -15 000&nbsp;€</span>
+  </div>
+</div>
