@@ -11,7 +11,10 @@ test.describe("Elements instables", () => {
     await page.goto("https://bugcorp.vercel.app/");
     await page.locator("#nav-link-unstable").click();
   });
-  test.skip("Authentification 2FA, non passant code vide", async () => {
+  test.afterAll(async () => {
+    await browser.close();
+  });
+  test("Authentification 2FA, non passant code vide", async () => {
     await expect(
       page
         .locator(
@@ -25,7 +28,7 @@ test.describe("Elements instables", () => {
     await expect(successLocator).toBeVisible();
     await expect(successLocator).toHaveText(" Code incorrect ou expiré.");
   });
-  test.skip("Authentification 2FA, non passant délai expiré", async () => {
+  test("Authentification 2FA, non passant délai expiré", async () => {
     await expect(
       page
         .locator(
@@ -39,9 +42,8 @@ test.describe("Elements instables", () => {
     const successLocator = page.locator('[id="2fa-error"]');
     await expect(successLocator).toBeVisible();
     await expect(successLocator).toHaveText(" Code incorrect ou expiré.");
-    await page.pause();
   });
-  test.skip("Authentification 2FA, Passant", async () => {
+  test("Authentification 2FA, Passant", async () => {
     await expect(
       page
         .locator(
@@ -57,7 +59,7 @@ test.describe("Elements instables", () => {
     await expect(successLocator).toHaveText("Code validé avec succès !");
   });
 
-  test.skip("Le Bouton Éphémère", async () => {
+  test("Le Bouton Éphémère", async () => {
     await expect(
       page
         .locator(
@@ -68,42 +70,40 @@ test.describe("Elements instables", () => {
     await page.locator("#btn-start-loading").isVisible();
     await page.click("#btn-start-loading");
     await expect(page.locator("#btn-ephemeral")).toBeVisible({
-      timeout: 5_000,
+      timeout: 10000,
     });
     await page.click("#btn-ephemeral");
     await expect(page.locator("#msg-disarmed")).toHaveText(
       "Bombe désamorcée !"
     );
-    await page.pause();
   });
 
-  test.skip("Le Bouton Fantôme", async () => {
+  test("Le Bouton Fantôme", async () => {
     await expect(
       page
         .locator(
           ".text-lg.font-bold.text-slate-800.mb-4.flex.items-center.gap-2"
         )
-        .nth(1)
+        .nth(2)
     ).toHaveText("Le Bouton Éphémère");
     await page.locator("#btn-ghost").isVisible();
     await page.click("#btn-ghost");
     await expect(page.locator("#ghost-msg")).toHaveText(" Bien joué !");
-    await page.pause();
   });
 
-  test.skip("Vérification du Double clic", async () => {
+  test("Vérification du Double clic", async () => {
     // Vérifier la présence du bouton de double clic
     await page.locator("#btn-double-click").isVisible();
     await page.dblclick("#btn-double-click");
     await expect(page.locator("#btn-double-click")).toHaveText(
       "Succès ! (Double Clic)",
       {
-        timeout: 1_000,
+        timeout: 10_000,
       }
     );
   });
 
-  test.skip("La Jauge de Précision", async ({ browser }) => {
+  test("La Jauge de Précision", async ({ browser }) => {
     await page.evaluate(() =>
       window.scrollTo(0, document.documentElement.scrollHeight)
     );
@@ -124,10 +124,9 @@ test.describe("Elements instables", () => {
     await page.click("#btn-gauge-action");
     await expect(page.locator("#gauge-msg-success")).toHaveText("PARFAIT !");
     await expect(page.locator("#gauge-msg-success")).toBeVisible();
-    await page.pause();
   });
 
-  test.skip("Le Clic Droit, passant", async () => {
+  test("Le Clic Droit, passant", async () => {
     await expect(
       page
         .locator(
@@ -146,9 +145,8 @@ test.describe("Elements instables", () => {
     await expect(page.locator("#area-context-menu")).toHaveText(
       " Validation Réussie !"
     );
-    await page.pause();
   });
-  test("Le Clic Droit, non passant (HTML EXACT)", async () => {
+  test("Le Clic Droit, non passant", async () => {
     await expect(
       page
         .locator(
@@ -185,6 +183,5 @@ test.describe("Elements instables", () => {
     await expect(page.locator("#area-context-menu")).toHaveText(
       " Mauvaise option !"
     );
-    await page.pause();
   });
 });

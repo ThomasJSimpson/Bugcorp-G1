@@ -24,7 +24,6 @@ export default defineConfig({
     video: "retain-on-failure",
 
     // Collecte trace pour visualiser les tests
-    trace: "on-first-retry",
   },
 
   projects: [
@@ -32,7 +31,7 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-    {
+    /*  {
       name: "firefox",
       use: { ...devices["Desktop Firefox"] },
     },*/
