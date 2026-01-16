@@ -1,0 +1,9 @@
+import { maFonction } from  '../utils.js';
+
+export  async  function  maFonction(page) {
+}
+
+
+test('test', async ({ page }) => {
+    await  maFonction(page);
+});
