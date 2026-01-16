@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
 //1-Test d'Accès à la Page Contact
 //Objectif : Vérifier que l'utilisateur peut accéder au formulaire Contact de plusieurs façons.
 //s'assurer que la fonctionnalité est accessible
-test.only("CT01 -Accéder à la page Contact depuis différentes navigations", async ({
+test("CT01 -Accéder à la page Contact depuis différentes navigations", async ({
   page,
 }) => {
   // Test 1: Depuis le menu principal
