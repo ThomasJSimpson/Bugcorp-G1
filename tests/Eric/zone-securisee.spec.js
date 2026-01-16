@@ -26,17 +26,20 @@ test.describe("Zone sécurisée E2E", () => {
     const hardRebootBtn = page.locator("#btn-hard-reboot");
     const step3Container = page.locator("#step-3-button");
 
-    // --- STEP 1 : Séquence d'amorçage ---
-    await runSequence(page);
+    // Step 1 : Séquence d'amorçage Non Passant
+    await runSequence(page, [0, 1, 3]);
+    await expect(step1Icon).not.toBeVisible();
 
+    // Step 1 : Séquence d'amorçage Passant
+    await runSequence(page, [0, 1, 2, 3]);
     await expect(step1Icon).toBeVisible();
 
-    // STEP 3 encore verrouillé (flou + non interactif)
+    // Step 3 : Bouton détruireencore verrouillé (flou + non interactif)
     await expect(step3Container).toHaveCSS("pointer-events", "none");
     await expect(step3Container).toHaveClass(/opacity-30/);
     await expect(step3Container).toHaveClass(/blur-sm/);
 
-    // --- STEP 2 : Slider (tests des extrêmes) ---
+    // Step 2 : Slider (tests des extrêmes)
 
     // 1 %
     await slider.fill("1");
@@ -55,7 +58,7 @@ test.describe("Zone sécurisée E2E", () => {
     await expect(step3Container).not.toHaveClass(/opacity-30/);
     await expect(step3Container).not.toHaveClass(/blur-sm/);
 
-    // --- ZONE DE DANGER ---
+    // ZONE DE DANGER + Caution
     await expect(
       page.getByText(
         "CAUTION: Action irréversible. Risque de chômage immédiat."
@@ -65,14 +68,14 @@ test.describe("Zone sécurisée E2E", () => {
       page.getByRole("heading", { name: "Zone de Danger" })
     ).toBeVisible();
 
-    // --- BOUTON DESTRUCTION ---
+    // BOUTON DESTRUCTION
     await destroyBtn.hover();
     await destroyBtn.click();
     const destroyedTitle = page.locator("#text-system-destroyed");
     await expect(destroyedTitle).toBeVisible();
     await expect(destroyedTitle).toHaveText("SYSTÈME DÉTRUIT");
 
-    // --- BOUTON HARD REBOOT ---
+    // BOUTON HARD REBOOT
     await expect(hardRebootBtn).toBeVisible();
     await expect(hardRebootBtn).toBeEnabled();
     await expect(hardRebootBtn.locator("svg")).toBeVisible();
@@ -80,13 +83,13 @@ test.describe("Zone sécurisée E2E", () => {
     await hardRebootBtn.hover();
     await hardRebootBtn.click();
 
-    // --- Vérification retour page login ---
+    // Vérification retour verspage login
     await expect(page.getByText("Accès restreint")).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Déverrouiller" })
     ).toBeVisible();
 
-    // --- Capture écran finale ---
+    // Capture écran finale
     await page.screenshot({ path: "screenshots/final-step.png" });
   });
 });

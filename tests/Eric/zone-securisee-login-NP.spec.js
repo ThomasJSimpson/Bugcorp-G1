@@ -52,4 +52,13 @@ test.describe("Zone sécurisée – cas NON passants login", () => {
       page.getByRole("heading", { name: /Zone Sécurisée/i })
     ).not.toBeVisible();
   });
+  test("Injection SQL", async ({ page }) => {
+    await page.getByRole("textbox", { name: "Identifiant" }).fill("Dupont';--");
+    await page.getByRole("textbox", { name: "Mot de passe" }).fill("' or 1 --");
+    await page.getByRole("button", { name: "Déverrouiller" }).click();
+
+    await expect(
+      page.getByRole("heading", { name: /Zone Sécurisée/i })
+    ).not.toBeVisible();
+  });
 });
