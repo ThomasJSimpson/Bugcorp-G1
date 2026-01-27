@@ -1,0 +1,63 @@
+name: Tests automatisés (Playwright)
+
+on:
+ push:
+  
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Configurer Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Installer les navigateurs Playwright (avec dépendances OS)
+        run: npx playwright install --with-deps
+
+      - name: Attendre que l'application soit prête
+        run: |
+          URL="https://bugcorp.vercel.app"
+          echo "Attente de $URL ..."
+          for i in {1..60}; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+            if [ "$code" = "200" ]; then
+              echo "OK (HTTP 200) ✅"
+              exit 0
+            fi
+            echo "Pas prête encore (HTTP $code). nouvelle tentative dans 5s..."
+            sleep 5
+          done
+          echo "Délai d'expiration en attente de $URL ❌"
+          exit 1
+
+      - name: Exécuter les tests Playwright
+        env:
+          CI: true
+          BASE_URL: https://bugcorp.vercel.app
+        run: npx playwright test
+
+      - name: Télécharger le rapport HTML Playwright
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 14
+
+      - name: Télécharger les résultats des tests Playwright (JUnit + traces + vidéos + captures d'écran)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          retention-days: 14
