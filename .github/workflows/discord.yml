@@ -1,0 +1,16 @@
+name: Notify Discord
+on:
+push:
+branches: [ "main" ]
+jobs:
+discord:
+runs-on: ubuntu-latest
+steps:
+- name: Send message to Discord webhook
+env:
+DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+run: |
+curl -H "Content-Type: application/json" \
+-d "{\"content\":\"✅ Encore une quennelle du chef sur **${GITHUB_REPOSITORY}** (branch: **${GITHUB_REF_NAME}**) —
+commit: ${GITHUB_SHA}\"}" \
+"$DISCORD_WEBHOOK_URL"
