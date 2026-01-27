@@ -21,7 +21,7 @@ export default defineConfig({
     screenshot: "only-on-failure",
 
     // Vidéo automatique uniquement sur échec
-    video: "retain-on-failure",
+    video: "retry-with-video",
 
     // Collecte trace pour visualiser les tests
   },
