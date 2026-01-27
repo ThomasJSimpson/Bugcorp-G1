@@ -25,7 +25,6 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Attendre que l'application soit prête
-        shell: bash
         run: |
           URL="https://bugcorp.vercel.app"
           echo "Attente de $URL ..."
